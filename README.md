@@ -6,7 +6,7 @@ Simple SVG string conversion to PNG or JPEG.
 var Exporter = require('svg2image');
 ```
 
-# var imageExporter = new Exporter(svgString, options)
+## var imageExporter = new Exporter(svgString, options)
 Returns a new instance of an ImageExporter. One-sy.
 
 ### `svgString`
@@ -17,15 +17,15 @@ Plain SVG string. Not an SVG node. Just a string.
 - `width` : `int` (px)
 - `height` : `int` (px)
 
-# imageExporter.on('ready')
+## imageExporter.on('ready')
 After the environment for exporting is setup, the instance of Exporter will emit a `'ready'` event.
 
-# imageExporter.encode()
+## imageExporter.encode()
 This will encode the SVG and emit either a `success` or `error` event.
 
-# imageExporter.on('success', imgData)
+## imageExporter.on('success', imgData)
 `success` event comes with the imgData in the format specified.
 
-# imageExporter.on('error', err)
+## imageExporter.on('error', err)
 `error` event fires if something went wrong during the conversion.
 
