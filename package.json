@@ -1,13 +1,13 @@
 {
   "name": "svg2image",
   "version": "0.0.1",
-  "description": "",
+  "description": "Simple SVG string to PNG or JPEG",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Alexander Vados <alex.vados@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "hat": "0.0.3"
   }

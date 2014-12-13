@@ -11,8 +11,8 @@ var exportOpts = {
     height: 500
 };
 
-var svg = require('./mock');
-var imageExporter = new Exporter(svg, exportOpts);
+var svgString = require('./mock');
+var imageExporter = new Exporter(svgString, exportOpts);
 
 imageExporter.on('ready', function () {
     imageExporter.encode();
