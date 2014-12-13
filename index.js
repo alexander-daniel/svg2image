@@ -7,16 +7,15 @@ var hat = require('hat');
 module.exports = Exporter;
 
 function Exporter(svg, opts) {
-	var self = this;
-	EventEmitter.call(this);
+    var exporter = new EventEmitter();
 
-	self.imageFormat = opts.format || 'png';
-    self.svg = svg;
-    self.height = opts.height || 150;
-    self.width = opts.width || 300;
-    
-    var div = window.document.createElement('div');
-    var canvasContainer = window.document.body.appendChild(div);
+	exporter.imageFormat = opts.format || 'png';
+    exporter.svg = svg;
+    exporter.height = opts.height || 150;
+    exporter.width = opts.width || 300;
+
+    var canvasContainer = opts.canvasContainer;
+    var canvasEl = opts.canvasEl;
 
 	canvasContainer.id =  hat();
     canvasContainer.style.position = 'absolute';
@@ -24,49 +23,46 @@ function Exporter(svg, opts) {
     canvasContainer.style.left = 0;
     canvasContainer.style['z-index'] = 1000;
 
-    var canvas = window.document.createElement('canvas');
-    var canvasEl = canvasContainer.appendChild(canvas);
-
     canvasEl.id = hat();
-    canvasEl.width = self.width;
-    canvasEl.height = self.height;
+    canvasEl.width = exporter.width;
+    canvasEl.height = exporter.height;
 
-    self.canvas = canvas;
-    self.canvasContainer = canvasContainer;
-    self.ctx = canvas.getContext('2d');
-    self._svg = new Blob([svg], {type: 'image/svg+xml;charset=utf-8'});
+    exporter.canvas = opts.canvas;
+    exporter.canvasContainer = canvasContainer;
+    exporter.ctx = exporter.canvas.getContext('2d');
+    exporter._svg = new Blob([svg], {type: 'image/svg+xml;charset=utf-8'});
+
+    exporter.encode = function () {
+        var exporter = this;
+        var imgData;
+
+        if (exporter.imageFormat === 'jpeg') imgData = exporter.canvas.toDataURL('image/jpeg');
+        else if (exporter.imageFormat === 'png') imgData = exporter.canvas.toDataURL('image/png');
+        else if (exporter.imageFormat === 'svg') imgData = exporter.svg;
+        else return exporter.emit('error', 'Image format is not jpeg, png or svg');
+
+        exporter.canvasContainer.innerHTML = '';
+
+        if (imgData) return exporter.emit('success', imgData);
+        else return exporter.emit('error', 'Image is Empty');
+    };
 
     var DOMURL = window.URL || window.webkitURL;
     var img = new Image();
-    var url = DOMURL.createObjectURL(self._svg);
+    var url = DOMURL.createObjectURL(exporter._svg);
     
     img.onload = function() {
-        self.ctx.drawImage(img, 0, 0);
+        exporter.ctx.drawImage(img, 0, 0);
         DOMURL.revokeObjectURL(url);
-        self.emit('ready');
+        exporter.emit('ready');
     };
     img.onerror = function() {
         DOMURL.revokeObjectURL(url);
-        return self.emit('error', 'image did not load');
+        return exporter.emit('error', 'image did not load');
     };
     img.src = url;
+    return exporter;
 }
 
-inherits(Exporter, EventEmitter);
-
-Exporter.prototype.encode = function () {
-    var self = this;
-    var imgData;
-
-    if (self.imageFormat === 'jpeg') imgData = self.canvas.toDataURL('image/jpeg');
-    else if (self.imageFormat === 'png') imgData = self.canvas.toDataURL('image/png');
-    else if (self.imageFormat === 'svg') imgData = self.svg;
-    else return self.emit('error', 'Image format is not jpeg, png or svg');
-
-    self.canvasContainer.innerHTML = '';
-
-    if (imgData) return self.emit('success', imgData);
-    else return self.emit('error', 'Image is Empty');
-};
 
 
