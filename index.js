@@ -15,8 +15,8 @@ function Exporter(svg, opts) {
     self.height = opts.height || 150;
     self.width = opts.width || 300;
     
-    var div = document.createElement('div');
-    var canvasContainer = document.body.appendChild(div);
+    var div = window.document.createElement('div');
+    var canvasContainer = window.document.body.appendChild(div);
 
 	canvasContainer.id =  hat();
     canvasContainer.style.position = 'absolute';
@@ -24,7 +24,7 @@ function Exporter(svg, opts) {
     canvasContainer.style.left = 0;
     canvasContainer.style['z-index'] = 1000;
 
-    var canvas = document.createElement('canvas');
+    var canvas = window.document.createElement('canvas');
     var canvasEl = canvasContainer.appendChild(canvas);
 
     canvasEl.id = hat();
