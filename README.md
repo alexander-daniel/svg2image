@@ -9,10 +9,10 @@ var Exporter = require('svg2image');
 ## var imageExporter = new Exporter(svgString, options)
 Returns a new instance of an ImageExporter. One-sy.
 
-### `svgString`
+#### `svgString`
 Plain SVG string. Not an SVG node. Just a string.
 
-### `options` is an object to specify export settings.
+#### `options` is an object to specify export settings.
 - `format` : `'png'` or `'jpeg'`
 - `width` : `int` (px)
 - `height` : `int` (px)
