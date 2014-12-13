@@ -1,5 +1,5 @@
 {
-  "name": "plotly-image-exporter",
+  "name": "svg2image",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
