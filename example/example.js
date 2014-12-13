@@ -1,8 +1,7 @@
 'use strict';
 
-var Exporter = require('./index');
+var Exporter = require('../index');
 
-var size = { width: 1200, height: 500 };
 var exportOpts = {
     format: 'png',
     width: 1200,
