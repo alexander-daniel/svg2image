@@ -21,8 +21,8 @@ function Exporter(opts) {
 
     canvasContainer.id =  hat();
     canvasContainer.style.position = 'absolute';
-    canvasContainer.style.top = 0;
-    canvasContainer.style.left = 0;
+    canvasContainer.style.top = -1000;
+    canvasContainer.style.left = -1000;
     canvasContainer.style['z-index'] = 1000;
 
 
