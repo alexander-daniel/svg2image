@@ -11,7 +11,9 @@ var exportOpts = {
 var svgString = require('./mock');
 var imageExporter = new Exporter(exportOpts);
 
-imageExporter.encode(svgString);
+imageExporter.on('ready', function () {
+    imageExporter.encode(svgString);
+});
 
 imageExporter.on('success', function (imgData) {
 	console.log('success', imgData);
