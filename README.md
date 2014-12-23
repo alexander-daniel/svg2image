@@ -12,10 +12,10 @@ var exportOpts = {
 };
 
 var svgString = require('./mock');
-var imageExporter = new Exporter(svgString, exportOpts);
+var imageExporter = new Exporter(exportOpts);
 
 imageExporter.on('ready', function () {
-    imageExporter.encode();
+    imageExporter.encode(svgString);
 });
 
 imageExporter.on('success', function (imgData) {
@@ -28,6 +28,7 @@ imageExporter.on('error', function (err) {
 	console.log('error', err);
 });
 
+
 ```
 
 # Methods
@@ -35,22 +36,19 @@ imageExporter.on('error', function (err) {
 var Exporter = require('svg2image');
 ```
 
-## var imageExporter = new Exporter(svgString, options)
-Returns a new instance of an ImageExporter. One-sy.
-
-#### `svgString`
-Plain SVG string. Not an SVG node. Just a string.
+## var imageExporter = new Exporter(options)
+Returns a new instance of an ImageExporter.
 
 #### `options` is an object to specify export settings.
 - `format` : `'png'` or `'jpeg'`
 - `width` : `int` (px)
 - `height` : `int` (px)
 
-## imageExporter.on('ready')
-After the environment for exporting is setup, the instance of Exporter will emit a `'ready'` event.
-
-## imageExporter.encode()
+## imageExporter.encode(svgString)
 This will encode the SVG and emit either a `success` or `error` event.
+
+#### `svgString`
+Plain SVG string. Not an SVG node. Just a string.
 
 ## imageExporter.on('success', imgData)
 `success` event comes with the imgData in the format specified.
@@ -58,3 +56,11 @@ This will encode the SVG and emit either a `success` or `error` event.
 ## imageExporter.on('error', err)
 `error` event fires if something went wrong during the conversion.
 
+
+# Install
+```bash
+npm install svg2image
+```
+
+# License
+MIT
