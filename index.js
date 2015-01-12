@@ -3,6 +3,7 @@
 var EventEmitter = require('events').EventEmitter;
 var inherits = require('util').inherits;
 var hat = require('hat');
+var Blob = require('w3c-blob');
 
 module.exports = Exporter;
 
@@ -29,8 +30,8 @@ Exporter.prototype.encode = function (svg) {
     var self = this;
     var DOMURL = window.URL || window.webkitURL;
     var img = new Image();
-    var _svg = new Blob([svg], {type: 'image/svg+xml;charset=utf-8'});
-    var url = DOMURL.createObjectURL(_svg);
+    var svgBlob = new Blob([svg], {type: 'image/svg+xml;charset=utf-8'});
+    var url = DOMURL.createObjectURL(svgBlob);
 
     img.onload = function() {
         self.ctx.drawImage(img, 0, 0);
