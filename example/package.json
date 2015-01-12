@@ -1,0 +1,9 @@
+{
+    "name": "svg2image",
+    "main": "nw.html",
+    "window": {
+        "toolbar": true,
+        "frame": true,
+        "show": true
+    }
+}

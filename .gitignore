@@ -2,3 +2,4 @@ node_modules/*
 example/bundle.js
 example/.bundle.js
 *.log
+example/nw.html

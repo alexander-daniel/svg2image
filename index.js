@@ -3,7 +3,7 @@
 var EventEmitter = require('events').EventEmitter;
 var inherits = require('util').inherits;
 var hat = require('hat');
-var Blob = require('w3c-blob');
+var Image = window.Image; // leave in for node
 
 module.exports = Exporter;
 
@@ -25,22 +25,19 @@ function Exporter(opts) {
 
 inherits(Exporter, EventEmitter);
 
-Exporter.prototype.encode = function (svg) {
+Exporter.prototype.encode = function (svgString) {
 
     var self = this;
-    var DOMURL = window.URL || window.webkitURL;
     var img = new Image();
-    var svgBlob = new Blob([svg], {type: 'image/svg+xml;charset=utf-8'});
-    var url = DOMURL.createObjectURL(svgBlob);
+    var buf = new Buffer(svgString).toString('base64');
+    var url = 'data:image/svg+xml;base64,' + buf;
 
     img.onload = function() {
         self.ctx.drawImage(img, 0, 0);
-        DOMURL.revokeObjectURL(url);
         self.emit('ready');
     };
 
     img.onerror = function() {
-        DOMURL.revokeObjectURL(url);
         return self.emit('error', 'image did not load');
     };
 
@@ -51,7 +48,7 @@ Exporter.prototype.encode = function (svg) {
 
         if (self.exportFormat === 'jpeg') imgData = self.canvas.toDataURL('image/jpeg');
         else if (self.exportFormat === 'png') imgData = self.canvas.toDataURL('image/png');
-        else if (self.exportFormat === 'svg') imgData = self.svg;
+        else if (self.exportFormat === 'svg') imgData = svgString;
         else return self.emit('error', 'Image format is not jpeg, png or svg');
         self.canvasContainer.innerHTML = ''; // clear canvas
 
