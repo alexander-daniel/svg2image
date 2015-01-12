@@ -5,10 +5,16 @@ Simple SVG string conversion to PNG or JPEG.
 ```javascript
 var Exporter = require('svg2image');
 
+var div = window.document.createElement('div');
+var canvasContainer = document.body.appendChild(div);
+var canvas = document.createElement('canvas');
+
 var exportOpts = {
     format: 'png',
     width: 1200,
-    height: 500
+    height: 500,
+    canvasContainer: canvasContainer,
+    canvas: canvas
 };
 
 var svgString = require('./mock');
@@ -34,13 +40,18 @@ var Exporter = require('svg2image');
 ## var imageExporter = new Exporter(options)
 Returns a new instance of an ImageExporter.
 
-#### `options` is an object to specify export settings.
-- `format` : `'png'` or `'jpeg'`
-- `width` : `int` (px)
-- `height` : `int` (px)
+`options.format` - `'png'`, `'jpeg'` | **default:** `'png'`
+
+`options.height` - height in px. | **default:** 150
+
+`options.width` - width in px. | **default:** 300
+
+`options.canvasContainer` - DOM element to hold `options.canvas` | **Required**
+
+`options.canvas` - Canvas DOM element | **Required**
 
 ## imageExporter.encode(svgString)
-This will encode the SVG and emit either a `success` or `error` event.
+This will encode the SVG and `imageExporter` will emit either a `success` or `error` event.
 
 #### `svgString`
 Plain SVG string. Not an SVG node. Just a string.
