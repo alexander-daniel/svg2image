@@ -11,7 +11,6 @@
   "license": "MIT",
   "dependencies": {
     "browserify": "^8.1.0",
-    "hat": "0.0.3",
-    "w3c-blob": "0.0.1"
+    "hat": "0.0.3"
   }
 }
