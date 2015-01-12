@@ -53,8 +53,10 @@ Returns a new instance of an ImageExporter.
 ## imageExporter.encode(svgString)
 This will encode the SVG and `imageExporter` will emit either a `success` or `error` event.
 
-#### `svgString`
-Plain SVG string. Not an SVG node. Just a string.
+`svgString` - Plain SVG string. Not an SVG node. Just a string.
+
+
+# Events
 
 ## imageExporter.on('success', imgData)
 `success` event comes with the imgData in the format specified.

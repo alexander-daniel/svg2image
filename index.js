@@ -29,8 +29,8 @@ Exporter.prototype.encode = function (svg) {
     var self = this;
     var DOMURL = window.URL || window.webkitURL;
     var img = new Image();
-    self._svg = new Blob([svg], {type: 'image/svg+xml;charset=utf-8'});
-    var url = DOMURL.createObjectURL(self._svg);
+    var _svg = new Blob([svg], {type: 'image/svg+xml;charset=utf-8'});
+    var url = DOMURL.createObjectURL(_svg);
 
     img.onload = function() {
         self.ctx.drawImage(img, 0, 0);
