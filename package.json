@@ -1,6 +1,6 @@
 {
   "name": "svg2image",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Simple SVG string to PNG or JPEG",
   "main": "index.js",
   "scripts": {
