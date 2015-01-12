@@ -70,5 +70,16 @@ This will encode the SVG and `imageExporter` will emit either a `success` or `er
 npm install svg2image
 ```
 
+# Tests
+Tests are kinda buggered, testling is having issues. However you can do it locally:
+```
+npm test
+```
+That'll spit out a local instance of the test/example:
+```
+http://localhost:62849/__testling?show=true
+```
+Open that, open your console and see if tests passed!
+
 # License
 MIT

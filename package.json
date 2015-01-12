@@ -4,13 +4,30 @@
   "description": "Simple SVG string to PNG or JPEG",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "testling -u",
     "example": "browserify example/example.js -o example/bundle.js && open example/index.html"
   },
   "author": "Alexander Vados <alex.vados@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "browserify": "^8.1.0",
     "hat": "0.0.3"
+  },
+  "testling": {
+    "html": "test/test.html",
+    "preprocess": "browserify test/test.js -o test/test-bundle.js",
+    "browsers": [
+      "ie/6..latest",
+      "chrome/22..latest",
+      "firefox/16..latest",
+      "safari/latest",
+      "opera/11.0..latest",
+      "iphone/6",
+      "ipad/6",
+      "android-browser/latest"
+    ]
+  },
+  "devDependencies": {
+    "browserify": "^8.1.0",
+    "testling": "^1.7.1"
   }
 }

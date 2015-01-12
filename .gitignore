@@ -3,3 +3,4 @@ example/bundle.js
 example/.bundle.js
 *.log
 example/nw.html
+test/test-bundle.js

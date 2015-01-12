@@ -30,7 +30,7 @@ Exporter.prototype.encode = function (svgString) {
     var self = this;
     var img = new Image();
     var buf = new Buffer(svgString).toString('base64');
-    var url = 'data:image/svg+xml;base64,' + buf;
+    var src = 'data:image/svg+xml;base64,' + buf;
 
     img.onload = function() {
         self.ctx.drawImage(img, 0, 0);
@@ -41,7 +41,8 @@ Exporter.prototype.encode = function (svgString) {
         return self.emit('error', 'image did not load');
     };
 
-    img.src = url;
+    img.src = src;
+    img.setAttribute('crossOrigin','anonymous');
 
     self.on('ready', function () {
         var imgData;
