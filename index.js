@@ -3,9 +3,10 @@
 var EventEmitter = require('events').EventEmitter;
 var inherits = require('util').inherits;
 var hat = require('hat');
-var Image = window.Image; // leave in for node
 
-module.exports = Exporter;
+// leave in for node webkit context
+var Image = window.Image;
+var Blob = window.Blob;
 
 function Exporter(opts) {
 
@@ -23,37 +24,53 @@ function Exporter(opts) {
 
 }
 
+module.exports = Exporter;
+
 inherits(Exporter, EventEmitter);
 
 Exporter.prototype.encode = function (svgString) {
 
     var self = this;
     var img = new Image();
-    var buf = new Buffer(svgString).toString('base64');
-    var src = 'data:image/svg+xml;base64,' + buf;
+    var format = this.exportFormat;
+    var DOMURL = window.URL || window.webkitURL;
+    var svgBlob = new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'});
+    var url = DOMURL.createObjectURL(svgBlob);
+
+    self.on('ready', function () {
+        var imgData;
+        switch (format) {
+            case 'jpeg':
+                imgData = self.canvas.toDataURL('image/jpeg');
+                break;
+            case 'png':
+                imgData = self.canvas.toDataURL('image/png');
+                break;
+            case 'webp':
+                imgData = self.canvas.toDataURL('image/webp');
+                break;
+            case 'svg':
+                imgData = svgString;
+                break;
+            default:
+                return self.emit('error', 'Image format is not jpeg, png or svg');
+        }
+
+        return self.emit('success', imgData);
+    });
 
     img.onload = function() {
+        DOMURL.revokeObjectURL(url);
         self.ctx.drawImage(img, 0, 0);
         self.emit('ready');
     };
 
     img.onerror = function() {
-        return self.emit('error', 'image did not load');
+        DOMURL.revokeObjectURL(url);
+        return self.emit('error', 'Image failed on load');
     };
 
-    img.src = src;
-    img.setAttribute('crossOrigin','anonymous');
+    img.src = url;
 
-    self.on('ready', function () {
-        var imgData;
 
-        if (self.exportFormat === 'jpeg') imgData = self.canvas.toDataURL('image/jpeg');
-        else if (self.exportFormat === 'png') imgData = self.canvas.toDataURL('image/png');
-        else if (self.exportFormat === 'svg') imgData = svgString;
-        else return self.emit('error', 'Image format is not jpeg, png or svg');
-        self.canvasContainer.innerHTML = ''; // clear canvas
-
-        if (imgData) return self.emit('success', imgData);
-        else return self.emit('error', 'Image is Empty');
-    });
 };
